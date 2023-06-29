@@ -9,10 +9,7 @@ jobs:
     name: formatter
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        ref: ${{ github.base_ref }}
+      - uses: actions/checkout@v3
       - name: Get push before state
         id: get_before_state
         run: |
