@@ -1,4 +1,4 @@
-name: formatter
+name: Lua Formatter
 
 on:
   push:
@@ -6,11 +6,10 @@ on:
 
 jobs:
   formatter:
-    name: formatter
+    name: Lua Code Formatter
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Install stylua
+      - uses: actions/checkout@v2
       - name: Install stylua
         run: |
           wget https://github.com/JohnnyMorganz/StyLua/releases/download/v0.18.0/stylua-linux-aarch64.zip
@@ -31,4 +30,4 @@ jobs:
           git config --global user.name "GitHub Actions"
           git add -A
           git commit -m "Format Lua code with stylua" || echo "No changes to commit"
-          git push
+          git push origin main
