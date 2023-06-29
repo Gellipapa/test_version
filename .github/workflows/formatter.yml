@@ -3,10 +3,12 @@ name: formatter
 on:
   push:
     branches: [ main ]
+
 jobs:
     formatter:
-     name: Formatter
+     name: formatter
      runs-on: ubuntu-latest
+     
  steps:
       - uses: actions/checkout@v3
       - uses: JohnnyMorganz/stylua-action@v3
