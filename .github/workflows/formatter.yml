@@ -17,8 +17,8 @@ jobs:
           chmod +x stylua
       - name: Format changed files
         run: |
-          git fetch origin ${{ github.base_ref }}
-          changed_files=$(git diff --name-only --diff-filter=AM origin/${{ github.base_ref }}..${{ github.sha }} '*.lua')
+          git fetch origin main
+          changed_files=$(git diff --name-only --diff-filter=AM origin/main..${{ github.sha }} '*.lua')
           for file in $changed_files; do
             if [ -f "$file" ]; then
               ./stylua "$file"
