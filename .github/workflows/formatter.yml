@@ -1,4 +1,4 @@
-name: Lua Formatter
+name: formatter
 
 on:
   push:
@@ -6,19 +6,23 @@ on:
 
 jobs:
   formatter:
-    name: Lua Code Formatter
+    name: formatter
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install stylua
         run: |
           wget https://github.com/JohnnyMorganz/StyLua/releases/download/v0.18.0/stylua-linux-aarch64.zip
           unzip stylua-linux-aarch64.zip
           chmod +x stylua
+      - name: Get changed files
+        id: get_changed_files
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          echo "::set-output name=files::$(git diff --name-only --diff-filter=AM origin/${{ github.base_ref }}..${{ github.sha }} '*.lua')"
       - name: Format changed files
         run: |
-          git fetch origin main
-          changed_files=$(git diff --name-only --diff-filter=AM origin/main..${{ github.sha }} '*.lua')
+          changed_files=${{ steps.get_changed_files.outputs.files }}
           for file in $changed_files; do
             if [ -f "$file" ]; then
               ./stylua "$file"
@@ -28,6 +32,11 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "GitHub Actions"
-          git add -A
+          changed_files=${{ steps.get_changed_files.outputs.files }}
+          for file in $changed_files; do
+            if [ -f "$file" ]; then
+              git add "$file"
+            fi
+          done
           git commit -m "Format Lua code with stylua" || echo "No changes to commit"
           git push origin main
