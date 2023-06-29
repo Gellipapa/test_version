@@ -20,7 +20,6 @@ jobs:
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo "$file was changed"
           done
-      - uses: actions/checkout@v3
       - name: Install stylua
         run: |
           wget https://github.com/JohnnyMorganz/StyLua/releases/download/v0.18.0/stylua-linux-x86_64.zip
@@ -30,7 +29,7 @@ jobs:
         run: |
           changed_files=${{ steps.changed-files.outputs.all_changed_files }}
           for file in $changed_files; do
-              ./stylua new.lua
+              ./stylua "$file"
           done
       - name: Commit changes
         run: |
