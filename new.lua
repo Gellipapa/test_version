@@ -8,7 +8,7 @@ CreateThread(function()
                                 exports.spawnmanager:setAutoSpawn(false)
                 DoScreenFadeOut(0)
 
-               Wait(500)
+                Wait(500)
              TriggerServerEvent("esx:onPlayerJoined")
 
             break
