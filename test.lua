@@ -1,12 +1,11 @@
 function test()
-    print('asd')
-        local num = 0
-                local i = num+1
-        print(i)
+    print("asd")
+    local num = 0
+    local i = num + 1
+    print(i)
 end
 
-
-local netId = bagName:gsub('entity:', '')
+local netId = bagName:gsub("entity:", "")
 local timer = GetGameTimer()
 while not NetworkDoesEntityExistWithNetworkId(tonumber(netId)) do
     Wait(0)
