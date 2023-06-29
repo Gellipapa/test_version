@@ -11,10 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install stylua
+      - name: Install stylua
         run: |
-          STYLUA_VERSION=$(curl -s https://api.github.com/repos/JohnnyMorganz/StyLua/releases/latest | grep 'tag_name' | cut -d\" -f4)
-          wget https://github.com/JohnnyMorganz/StyLua/releases/download/$STYLUA_VERSION/stylua-$STYLUA_VERSION-linux.tar.gz
-          tar -xzf stylua-$STYLUA_VERSION-linux.tar.gz
+          wget https://github.com/JohnnyMorganz/StyLua/releases/download/v0.18.0/stylua-linux-aarch64.zip
+          unzip stylua-linux-aarch64.zip
           chmod +x stylua
       - name: Format changed files
         run: |
