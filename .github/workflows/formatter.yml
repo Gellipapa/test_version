@@ -30,9 +30,7 @@ jobs:
         run: |
           changed_files=${{ steps.changed-files.outputs.all_changed_files }}
           for file in $changed_files; do
-            if [ -f "$file" ]; then
               ./stylua "$file"
-            fi
           done
       - name: Commit changes
         run: |
