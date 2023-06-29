@@ -4,12 +4,12 @@ CreateThread(function()
     while not Config.Multichar do
         Wait(100)
 
-        if NetworkIsPlayerActive( PlayerId() ) then
-                                exports.spawnmanager:setAutoSpawn(false)
-                DoScreenFadeOut(0)
+        if NetworkIsPlayerActive(PlayerId()) then
+            exports.spawnmanager:setAutoSpawn(false)
+            DoScreenFadeOut(0)
 
-                   Wait(500)
-             TriggerServerEvent("esx:onPlayerJoined")
+            Wait(500)
+            TriggerServerEvent("esx:onPlayerJoined")
 
             break
         end
