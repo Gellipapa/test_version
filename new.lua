@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 local pickups = {}
 
 CreateThread(function()
@@ -254,7 +253,19 @@ AddStateBagChangeHandler('VehicleProperties', nil, function(bagName, key, value)
 	    if GetGameTimer() - timer > 10000 then
 	        return
 	    end
+    end
+	
+    local vehicle = NetToVeh(tonumber(netId))
+    local timer = GetGameTimer()
+    while NetworkGetEntityOwner(vehicle) ~= PlayerId() do
+        Wait(0)
+	    if GetGameTimer() - timer > 10000 then
+	        return
+	    end
+    end
 
+    ESX.Game.SetVehicleProperties(vehicle, value)
+end)
 
 RegisterNetEvent('esx:setAccountMoney')
 AddEventHandler('esx:setAccountMoney', function(account)
