@@ -5,15 +5,13 @@ on:
     branches: [ main ]
 
 jobs:
-    formatter:
-     name: formatter
-     runs-on: ubuntu-latest
-     
- steps:
+  formatter:
+    name: formatter
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v3
       - uses: JohnnyMorganz/stylua-action@v3
         with:
-         token: ${{ secrets.GITHUB_TOKEN }}
-         version: latest
-         args: --check .
-
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: latest
+          args: --check .
