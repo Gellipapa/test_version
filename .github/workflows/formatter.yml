@@ -10,11 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: JohnnyMorganz/stylua-action@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          version: latest
-          args: .
+      - name: Install stylua
+        run: |
+          curl -L https://github.com/JohnnyMorganz/StyLua/releases/latest/download/stylua.zip -o stylua.zip
+          unzip stylua.zip
+          chmod +x stylua
+      - name: Format changed files
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          changed_files=$(git diff --name-only --diff-filter=AM origin/${{ github.base_ref }}..${{ github.sha }} '*.lua')
+          for file in $changed_files; do
+            if [ -f "$file" ]; then
+              ./stylua "$file"
+            fi
+          done
       - name: Commit changes
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
