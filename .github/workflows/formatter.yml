@@ -30,7 +30,7 @@ jobs:
         run: |
           changed_files=${{ steps.changed-files.outputs.all_changed_files }}
           for file in $changed_files; do
-              ./stylua "new.lua"
+              ./stylua new.lua
           done
       - name: Commit changes
         run: |
