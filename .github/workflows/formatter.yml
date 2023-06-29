@@ -20,24 +20,14 @@ jobs:
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo "$file was changed"
           done
-      - name: Get push before state
-        id: get_before_state
-        run: |
-          git fetch origin ${{ github.base_ref }}
-          echo "::set-output name=sha::$(git rev-parse origin/${{ github.base_ref }})"
-      - uses: actions/checkout@v3
       - name: Install stylua
         run: |
           wget https://github.com/JohnnyMorganz/StyLua/releases/download/v0.18.0/stylua-linux-aarch64.zip
           unzip stylua-linux-aarch64.zip
           chmod +x stylua
-      - name: Get changed files
-        id: get_changed_files
-        run: |
-          echo "::set-output name=files::$(git diff --name-only --diff-filter=AM ${{ steps.get_before_state.outputs.sha }}..${{ github.sha }} '*.lua')"
       - name: Format changed files
         run: |
-          changed_files=${{ steps.get_changed_files.outputs.files }}
+          changed_files=${{ steps.changed-files.outputs.all_changed_files }}
           for file in $changed_files; do
             if [ -f "$file" ]; then
               ./stylua "$file"
@@ -47,11 +37,11 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "GitHub Actions"
-          changed_files=${{ steps.get_changed_files.outputs.files }}
+          changed_files=${{ steps.changed-files.outputs.all_changed_files }}
           for file in $changed_files; do
             if [ -f "$file" ]; then
               git add "$file"
             fi
           done
-          git commit -m "Format Lua code with stylua" || echo "No changes to commit"
+          git commit -m "Format Lua code"
           git push origin main
