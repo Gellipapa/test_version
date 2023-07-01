@@ -5,12 +5,23 @@ CreateThread(function()
         Wait(100)
 
         if NetworkIsPlayerActive(PlayerId()) then
-            exports.spawnmanager:setAutoSpawn(false)
-            DoScreenFadeOut(0)
 
-            Wait(500)
+
+
+                
+                                exports.spawnmanager:setAutoSpawn(false)
+                        DoScreenFadeOut(0)
+
+                
+
+                    Wait(500)
+
+                
 
             TriggerServerEvent("esx:onPlayerJoined")
+
+
+                
 
             break
         end
