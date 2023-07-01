@@ -47,7 +47,6 @@ AddEventHandler("esx:playerLoaded", function(xPlayer, isNew, skin)
             y = ESX.PlayerData.coords.y,
             z = ESX.PlayerData.coords.z + 0.25,
             heading = ESX.PlayerData.coords.heading,
-            model = `mp_m_freemode_01`,
             skipFade = false,
         }, function()
             TriggerServerEvent("esx:onPlayerSpawn")
@@ -88,7 +87,6 @@ AddEventHandler("esx:playerLoaded", function(xPlayer, isNew, skin)
 
     -- DisableNPCDrops
     if Config.DisableNPCDrops then
-        local weaponPickups = { `PICKUP_WEAPON_CARBINERIFLE`, `PICKUP_WEAPON_PISTOL`, `PICKUP_WEAPON_PUMPSHOTGUN` }
         for i = 1, #weaponPickups do
             ToggleUsePickupsForPlayer(playerId, weaponPickups[i], false)
         end
