@@ -10,6 +10,9 @@ CreateThread(function()
 
                 
                                 exports.spawnmanager:setAutoSpawn(false)
+
+
+                
                         DoScreenFadeOut(0)
 
                 
