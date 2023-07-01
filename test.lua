@@ -1,5 +1,5 @@
 function HUD:Toggle(state)
-                   SendNUIMessage({ type = "SHOW", value = state })
+    SendNUIMessage({ type = "SHOW", value = state })
 end
 
 function HUD:SetHudColor()
@@ -35,21 +35,21 @@ AddEventHandler("onResourceStart", function(resource)
     if GetCurrentResourceName() ~= resource then
         return
     end
-        
-               Wait(1000)
-        
+
+    Wait(1000)
+
     HUD:Start()
 end)
 
 -- On player loaded
-AddEventHandler("esx:playerLoaded", function( xPlayer )
-    Wait( 1000 )
-        
-                    HUD:Start(xPlayer)
+AddEventHandler("esx:playerLoaded", function(xPlayer)
+    Wait(1000)
+
+    HUD:Start(xPlayer)
 end)
 
 -- ForceLog or Logout
 AddEventHandler("esx:onPlayerLogout", function()
     Wait(1000)
-            HUD:Toggle(false)
+    HUD:Toggle(false)
 end)
