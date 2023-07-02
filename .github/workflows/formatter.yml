@@ -35,15 +35,17 @@ jobs:
           for file in $changed_files; do
               ./stylua "$file" --verify
           done
-      - name: Commit changesa
+      - name: Commit changes
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "GitHub Actions"
           changed_files=${{ steps.changed-files.outputs.all_changed_files }}
-          for file in $changed_files; do
-            if [ -f "$file" ]; then
-              git add "$file"
-            fi
-          done
-          git commit -m "Format Lua code"
-          git push origin main
+          if [ -n "$changed_files" ]; then
+            for file in $changed_files; do
+              if [ -f "$file" ]; then
+                git add "$file"
+              fi
+            done
+            git commit -m "Format Lua code"
+            git push origin main
+          fi
