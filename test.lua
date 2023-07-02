@@ -1,15 +1,13 @@
 function HUD:Toggle(state)
-    SendNUIMessage({type = "SHOW", value = state})
+    SendNUIMessage({ type = 'SHOW', value = state })
 end
 
 function HUD:SetHudColor()
-    SendNUIMessage({type = "SET_CONFIG_DATA", value = Config})
+    SendNUIMessage({ type = 'SET_CONFIG_DATA', value = Config })
 end
 
 function HUD:Start(xPlayer)
-    if not xPlayer then
-        xPlayer = ESX.GetPlayerData()
-    end
+    if not xPlayer then xPlayer = ESX.GetPlayerData() end
     self:SetHudColor()
 
     self:SlowThick()
@@ -49,32 +47,21 @@ function HUD:Start(xPlayer)
 end
 
 -- Handlers
--- On script start
-AddEventHandler(
-    "onResourceStart",
-    function(resource)
-        if GetCurrentResourceName() ~= resource then
-            return
-        end
+    -- On script start
+    AddEventHandler('onResourceStart', function(resource)
+        if GetCurrentResourceName() ~= resource then return end
         Wait(1000)
         HUD:Start()
-    end
-)
+    end)
 
--- On player loaded
-AddEventHandler(
-    "esx:playerLoaded",
-    function(xPlayer)
+    -- On player loaded
+    AddEventHandler('esx:playerLoaded', function(xPlayer)
         Wait(1000)
         HUD:Start(xPlayer)
-    end
-)
+    end)
 
--- ForceLog or Logout
-AddEventHandler(
-    "esx:onPlayerLogout",
-    function()
+    -- ForceLog or Logout
+    AddEventHandler('esx:onPlayerLogout', function()
         Wait(1000)
         HUD:Toggle(false)
-    end
-)
+    end)
