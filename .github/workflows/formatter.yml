@@ -14,7 +14,7 @@ jobs:
           fetch-depth: 2
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v14.6
+        uses: tj-actions/changed-files@v37
         with:
           files: |
             **/*.{js,html,css,lua}
