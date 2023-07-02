@@ -16,7 +16,9 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@v14.6
         with:
-          files: '**/*.{js,html,css,lua}'
+          files: |
+            **/*.{js,html,css,lua}
+            !**/*.yml
       - name: List all changed files
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
@@ -33,7 +35,7 @@ jobs:
           for file in $changed_files; do
               ./stylua "$file" --verify
           done
-      - name: Commit changesa
+      - name: Commit changes
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "GitHub Actions"
