@@ -36,17 +36,14 @@ jobs:
           sudo npm install --global prettier
       - name: Format changed files with Prettier
         run: |
-          IFS=$'\n' 
-          changed_files=${{ steps.changed-files.outputs.all_changed_files }}
-          for file in $changed_files; do
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             if [[ "$file" == *.js || "$file" == *.css || "$file" == *.html ]]; then
               prettier --write "$file"
             fi
           done
       - name: Format changed files with StyLua
         run: |
-          changed_files=${{ steps.changed-files.outputs.all_changed_files }}
-          for file in $changed_files; do
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             if [[ "$file" == *.lua ]]; then
               ./stylua "$file"
             fi
@@ -55,9 +52,8 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "GitHub Actions"
-          changed_files=${{ steps.changed-files.outputs.all_changed_files }}
-          if [ -n "$changed_files" ]; then
-            for file in $changed_files; do
+          if [ -n "${{ steps.changed-files.outputs.all_changed_files }}" ]; then
+            for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
               if [ -f "$file" ]; then
                 git add "$file"
               fi
