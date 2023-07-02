@@ -1,0 +1,66 @@
+name: formatter
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  formatter:
+    name: formatter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v37
+        with:
+          files: |
+            **/*.{js,html,css,lua}
+            !**/*.yml
+      - name: List all changed files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
+      - name: Install stylua
+        run: |
+          wget https://github.com/JohnnyMorganz/StyLua/releases/download/v0.18.0/stylua-linux-x86_64.zip
+          unzip stylua-linux-x86_64.zip
+          chmod +x stylua
+      - name: Install Node.js and Prettier
+        run: |
+          curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          sudo npm install --global prettier
+      - name: Format changed files with Prettier
+        run: |
+          changed_files=${{ steps.changed-files.outputs.all_changed_files }}
+          for file in $changed_files; do
+            if [[ "$file" == *.js || "$file" == *.css || "$file" == *.html ]]; then
+              prettier --write "$file"
+            fi
+          done
+      - name: Format changed files with StyLua
+        run: |
+          changed_files=${{ steps.changed-files.outputs.all_changed_files }}
+          for file in $changed_files; do
+            if [[ "$file" == *.lua ]]; then
+              ./stylua "$file"
+            fi
+          done
+      - name: Commit changes
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Actions"
+          changed_files=${{ steps.changed-files.outputs.all_changed_files }}
+          if [ -n "$changed_files" ]; then
+            for file in $changed_files; do
+              if [ -f "$file" ]; then
+                git add "$file"
+              fi
+            done
+            git commit -m "Format code"
+            git push origin main
+          fi
