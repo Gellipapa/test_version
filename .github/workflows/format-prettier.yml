@@ -51,6 +51,10 @@ jobs:
               ./stylua "$file"
             fi
           done
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
       - name: Commit changes
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -62,11 +66,5 @@ jobs:
               fi
             done
             git commit -m "Format code"
-            if [[ "${{ github.event_name }}" == "push" ]]; then
-              BRANCH_NAME=${{ github.ref == 'refs/heads/' && github.ref[11:] || github.ref }}
-            else
-              BRANCH_NAME=${{ github.event.pull_request.head.ref }}
-            fi
-            BRANCH_NAME=${{ github.event_name == 'push' && github.ref#refs/heads/ || github.event.pull_request.head.ref }}
-            git push origin ${BRANCH_NAME}
+            git push origin ${{ steps.extract_branch.outputs.branch }}
           fi
