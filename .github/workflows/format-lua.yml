@@ -1,0 +1,64 @@
+name: formatter-lua
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    types: [ labeled ]
+
+jobs:
+  formatter:
+    name: formatter
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.label.name == 'bug') }}
+    env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v37
+        with:
+          files: |
+            **/*.{lua}
+            !**/*.yml
+            !**/*.js
+            !**/*.html
+            !**/*.css
+      - name: List all changed files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
+      - name: Install stylua
+        run: |
+          wget https://github.com/JohnnyMorganz/StyLua/releases/download/v0.18.0/stylua-linux-x86_64.zip
+          unzip stylua-linux-x86_64.zip
+          chmod +x stylua
+      - name: Format changed files with StyLua
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+              ./stylua "$file"
+          done
+      - name: Commit changes
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Actions"
+          git config --global push.default current
+          if [ -n "${{ steps.changed-files.outputs.all_changed_files }}" ]; then
+            for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+              if [ -f "$file" ]; then
+                git add "$file"
+              fi
+            done
+            gh pr checkout ${{ github.event.pull_request.number }}
+            git commit -m "Format lua code"
+            if [ "${{ github.event_name }}" == "pull_request" ]; then
+              git push
+            else
+              git push origin main
+            fi
+          fi
