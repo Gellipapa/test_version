@@ -24,28 +24,3 @@ jobs:
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo "$file was changed"
           done
-      - name: Install stylua
-        run: |
-          wget https://github.com/JohnnyMorganz/StyLua/releases/download/v0.18.0/stylua-linux-x86_64.zip
-          unzip stylua-linux-x86_64.zip
-          chmod +x stylua
-      - name: Format changed files with StyLua
-        run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            if [[ "$file" == *.lua ]]; then
-              ./stylua "$file"
-            fi
-          done
-      - name: Commit changes
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "GitHub Actions"
-          if [ -n "${{ steps.changed-files.outputs.all_changed_files }}" ]; then
-            for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-              if [ -f "$file" ]; then
-                git add "$file"
-              fi
-            done
-            git commit -m "Format code"
-            git push origin main
-          fi
