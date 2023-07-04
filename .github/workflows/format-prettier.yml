@@ -64,5 +64,11 @@ jobs:
               fi
             done
             git commit -m "Format code"
-            git push origin ${{ env.BRANCH_NAME }}
+
+            if [ "${{ github.event_name }}" == "pull_request" ]; then
+              gh pr checkout ${{ github.event.pull_request.number }}
+              git push
+            else
+              git push origin main
+            fi
           fi
