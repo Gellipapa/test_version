@@ -52,11 +52,9 @@ jobs:
                 git add "$file"
               fi
             done
-            gh pr checkout ${{ github.event.pull_request.number }}
-            git commit -m "Format lua code"
-            if [ "${{ github.event_name }}" == "pull_request" ]; then
-              git push
-            else
-              git push origin main
-            fi
-          fi
+      - name: Push changes
+        if: steps.changed_files.outputs.files_changed == 'true' && github.event_name == 'pull_request'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
