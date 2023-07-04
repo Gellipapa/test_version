@@ -32,12 +32,17 @@ jobs:
           done
       - name: Check for .html, .css, or .js files
         run: |
-          echo "${{ steps.changed-files.outputs.all_changed_files }}" | grep -Eq "\.(html|css|js)$"
-          if [ $? -eq 0 ]; then
-              echo "includeWebFiles=true" >> $GITHUB_ENV
-          else
+            changed_files="${{ steps.changed-files.outputs.all_changed_files }}"
+            if [[ -z "$changed_files" ]]; then
               echo "includeWebFiles=false" >> $GITHUB_ENV
-          fi
+            else
+              echo "$changed_files" | grep -Eq "\.(html|css|js)$"
+              if [ $? -eq 0 ]; then
+                  echo "includeWebFiles=true" >> $GITHUB_ENV
+              else
+                  echo "includeWebFiles=false" >> $GITHUB_ENV
+              fi
+            fi
       - name: Install stylua
         run: |
           wget https://github.com/JohnnyMorganz/StyLua/releases/download/v0.18.0/stylua-linux-x86_64.zip
