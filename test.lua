@@ -10,16 +10,14 @@ function HUD:Start(xPlayer)
     if not xPlayer then
         xPlayer = ESX.GetPlayerData()
     end
-        self:SetHudColor()
+    self:SetHudColor()
 
-            self:SlowThick()
+    self:SlowThick()
 
-                self:FastThick()
+    self:FastThick()
 
     if not Config.Disable.Status then
-
-                    self:StatusThread()
-
+        self:StatusThread()
     end
 
     if not Config.Disable.Info then
@@ -27,26 +25,21 @@ function HUD:Start(xPlayer)
     end
 
     if Config.Disable.MinimapOnFoot then
-            DisplayRadar(false)
+        DisplayRadar(false)
     end
 
-
-    
-        self:Toggle(true)
+    self:Toggle(true)
 end
 
 -- Handlers
 -- On script start
 AddEventHandler("onResourceStart", function(resource)
     if GetCurrentResourceName() ~= resource then
-            
         return
-            
     end
     Wait(1000)
 
-        
-            HUD:Start()
+    HUD:Start()
 end)
 
 -- On player loaded
