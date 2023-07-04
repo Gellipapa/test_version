@@ -39,10 +39,14 @@ end
 -- On script start
 AddEventHandler("onResourceStart", function(resource)
     if GetCurrentResourceName() ~= resource then
+            
         return
+            
     end
     Wait(1000)
-    HUD:Start()
+
+        
+            HUD:Start()
 end)
 
 -- On player loaded
