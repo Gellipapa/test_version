@@ -64,11 +64,11 @@ jobs:
                 git add "$file"
               fi
             done
+            gh pr checkout ${{ github.event.pull_request.number }}
             git commit -m "Format code"
             git status
             if [ "${{ github.event_name }}" == "pull_request" ]; then
               git config --global push.default current
-              gh pr checkout ${{ github.event.pull_request.number }}
               git push
             else
               git push origin main
