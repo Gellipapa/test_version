@@ -5,7 +5,7 @@ end
 function HUD:SetHudColor()
     SendNUIMessage({ type = "SET_CONFIG_DATA", value = Config })
 end
-
+print("TEST")
 function HUD:Start(xPlayer)
     if not xPlayer then
         xPlayer = ESX.GetPlayerData()
