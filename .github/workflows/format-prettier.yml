@@ -62,5 +62,6 @@ jobs:
               fi
             done
             git commit -m "Format code"
-            git push origin ${GITHUB_REF#refs/heads/}
+            BRANCH_NAME=${{ github.event_name == 'push' && github.ref#refs/heads/ || github.event.pull_request.head.ref }}
+            git push origin ${BRANCH_NAME}
           fi
