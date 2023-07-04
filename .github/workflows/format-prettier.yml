@@ -30,17 +30,27 @@ jobs:
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo "$file was changed"
           done
+      - name: Check for .html, .css, or .js files
+        run: |
+          echo "${{ steps.changed-files.outputs.all_changed_files }}" | grep -Eq "\.(html|css|js)$"
+          if [ $? -eq 0 ]; then
+              echo "includeWebFiles=true" >> $GITHUB_ENV
+          else
+              echo "includeWebFiles=false" >> $GITHUB_ENV
+          fi
       - name: Install stylua
         run: |
           wget https://github.com/JohnnyMorganz/StyLua/releases/download/v0.18.0/stylua-linux-x86_64.zip
           unzip stylua-linux-x86_64.zip
           chmod +x stylua
       - name: Install Node.js and Prettier
+        if: env.includeWebFiles
         run: |
           curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
           sudo apt-get install -y nodejs
           sudo npm install --global prettier
       - name: Format changed files with Prettier
+        if: env.includeWebFiles
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             if [[ "$file" == *.js || "$file" == *.css || "$file" == *.html ]]; then
