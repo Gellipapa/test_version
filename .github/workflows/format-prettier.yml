@@ -65,7 +65,7 @@ jobs:
               fi
             done
             git commit -m "Format code"
-
+            git status
             if [ "${{ github.event_name }}" == "pull_request" ]; then
               git config --global push.default current
               gh pr checkout ${{ github.event.pull_request.number }}
