@@ -35,7 +35,7 @@ jobs:
         run: |
           import os
           files = '${{ steps.changed-files.outputs.all_changed_files }}'.split()
-          extensions = set(os.path.splitext(file)[1] for file in files)
+          extensions = set('*' + os.path.splitext(file)[1] for file in files)
           with open(os.getenv('GITHUB_ENV'), 'a') as f:
             f.write(f"CHANGED_EXTENSIONS={' '.join(extensions)}\n")
         shell: python
