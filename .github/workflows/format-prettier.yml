@@ -31,6 +31,7 @@ jobs:
             echo "$file was changed"
           done
       - name: Get file extensions
+        if: steps.changed-files.outputs.any_changed == 'true'
         id: getext
         run: |
           import os
@@ -46,13 +47,15 @@ jobs:
           sudo apt-get install -y nodejs
           sudo npm install --global prettier
       - name: Format changed files with Prettier
+        if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
               prettier --write "$file"
           done
       - name: Commit changed files and push current branch
+        if: steps.changed-files.outputs.any_changed == 'true'
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Apply html,css,js formated code
+          commit_message: Apply ${{ env.CHANGED_EXTENSIONS }} formated code
           file_pattern: ${{ env.CHANGED_EXTENSIONS }}
           status_options: '--untracked-files=no'
