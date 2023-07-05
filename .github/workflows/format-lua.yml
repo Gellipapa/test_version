@@ -1,8 +1,6 @@
 name: formatter-lua
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     types: [ labeled ]
 
