@@ -11,6 +11,8 @@ function HUD:Start(xPlayer)
         xPlayer = ESX.GetPlayerData()
     end
 
+    self:SetHudColor()
+
             self:SetHudColor()
 
     
@@ -22,10 +24,11 @@ function HUD:Start(xPlayer)
                     self:FastThick()
 
     if not Config.Disable.Status then
+
         
         self:StatusThread()
 
-        
+
     end
 
     if not Config.Disable.Info then

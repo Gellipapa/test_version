@@ -10,82 +10,54 @@ jobs:
   formatter:
     name: formatter
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.label.name == 'bug') }}
+    if: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.label.name == 'format') }}
     env:
-      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 2
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v37
         with:
           files: |
-            **/*.{js,html,css,lua}
+            **/*.{js,html,css}
             !**/*.yml
       - name: List all changed files
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo "$file was changed"
           done
-      - name: Check for .html, .css, or .js files
+      - name: Get file extensions
+        if: steps.changed-files.outputs.any_changed == 'true'
+        id: getext
         run: |
-            changed_files="${{ steps.changed-files.outputs.all_changed_files }}"
-            if [[ -z "$changed_files" ]]; then
-              echo "includeWebFiles=false" >> $GITHUB_ENV
-            else
-              echo "$changed_files" | grep -Eq "\.(html|css|js)$"
-              if [ $? -eq 0 ]; then
-                  echo "includeWebFiles=true" >> $GITHUB_ENV
-              else
-                  echo "includeWebFiles=false" >> $GITHUB_ENV
-              fi
-            fi
-      - name: Install stylua
-        run: |
-          wget https://github.com/JohnnyMorganz/StyLua/releases/download/v0.18.0/stylua-linux-x86_64.zip
-          unzip stylua-linux-x86_64.zip
-          chmod +x stylua
+          import os
+          files = '${{ steps.changed-files.outputs.all_changed_files }}'.split()
+          extensions = set('*' + os.path.splitext(file)[1] for file in files)
+          with open(os.getenv('GITHUB_ENV'), 'a') as f:
+            f.write(f"CHANGED_EXTENSIONS={' '.join(extensions)}\n")
+        shell: python
       - name: Install Node.js and Prettier
-        if: env.includeWebFiles
+        if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
           sudo apt-get install -y nodejs
           sudo npm install --global prettier
       - name: Format changed files with Prettier
-        if: env.includeWebFiles
+        if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            if [[ "$file" == *.js || "$file" == *.css || "$file" == *.html ]]; then
               prettier --write "$file"
-            fi
           done
-      - name: Format changed files with StyLua
-        run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            if [[ "$file" == *.lua ]]; then
-              ./stylua "$file"
-            fi
-          done
-      - name: Commit changes
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "GitHub Actions"
-          if [ -n "${{ steps.changed-files.outputs.all_changed_files }}" ]; then
-            for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-              if [ -f "$file" ]; then
-                git add "$file"
-              fi
-            done
-            gh pr checkout ${{ github.event.pull_request.number }}
-            git commit -m "Format code"
-            git status
-            if [ "${{ github.event_name }}" == "pull_request" ]; then
-              git config --global push.default current
-              git push
-            else
-              git push origin main
-            fi
-          fi
+      - name: Commit changed files and push current branch
+        if: steps.changed-files.outputs.any_changed == 'true'
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_user_name: ESX GITHUB ACTIONS BOT
+          commit_user_email: esx-github-actions-bot@users.noreply.github.com
+          commit_message: Apply ${{ env.CHANGED_EXTENSIONS }} formated code
+          file_pattern: ${{ env.CHANGED_EXTENSIONS }}
+          status_options: '--untracked-files=no'
