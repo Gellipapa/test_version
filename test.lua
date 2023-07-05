@@ -5,21 +5,22 @@ end
 function HUD:SetHudColor()
     SendNUIMessage({ type = "SET_CONFIG_DATA", value = Config })
 end
-
+print("TEST")
 function HUD:Start(xPlayer)
     if not xPlayer then
+        
         xPlayer = ESX.GetPlayerData()
+        
     end
+    
     self:SetHudColor()
 
-    self:SlowThick()
+            self:SlowThick()
 
-    self:FastThick()
+                self:FastThick()
 
     if not Config.Disable.Status then
-
-                    self:StatusThread()
-
+        self:StatusThread()
     end
 
     if not Config.Disable.Info then
@@ -40,6 +41,7 @@ AddEventHandler("onResourceStart", function(resource)
         return
     end
     Wait(1000)
+
     HUD:Start()
 end)
 
