@@ -41,6 +41,7 @@ jobs:
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
               ./stylua "$file"
           done
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - name: Commit and push changes files
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Apply lua style
