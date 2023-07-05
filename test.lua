@@ -1,9 +1,9 @@
 function HUD:Toggle(state)
-                SendNUIMessage({ type = "SHOW", value = state })
+    SendNUIMessage({ type = "SHOW", value = state })
 end
 
 function HUD:SetHudColor()
-                SendNUIMessage({ type = "SET_CONFIG_DATA", value = Config })
+    SendNUIMessage({ type = "SET_CONFIG_DATA", value = Config })
 end
 
 function HUD:Start(xPlayer)
@@ -11,19 +11,14 @@ function HUD:Start(xPlayer)
         xPlayer = ESX.GetPlayerData()
     end
 
-    
-        self:SetHudColor()
+    self:SetHudColor()
 
-
-    
     self:SlowThick()
 
-        self:FastThick()
+    self:FastThick()
 
     if not Config.Disable.Status then
-
-                    self:StatusThread()
-
+        self:StatusThread()
     end
 
     if not Config.Disable.Info then
