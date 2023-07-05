@@ -5,13 +5,17 @@ CreateThread(function()
         Wait(100)
 
         if NetworkIsPlayerActive(PlayerId()) then
+
+                
             exports.spawnmanager:setAutoSpawn(false)
 
-            DoScreenFadeOut(0)
+                    DoScreenFadeOut(0)
 
             Wait(500)
 
-            TriggerServerEvent("esx:onPlayerJoined")
+                
+
+                    TriggerServerEvent("esx:onPlayerJoined")
 
             break
         end
@@ -47,9 +51,13 @@ AddEventHandler("esx:playerLoaded", function(xPlayer, isNew, skin)
                 TriggerEvent("skinchanger:loadSkin", skin)
             end
 
-            TriggerEvent("esx:loadingScreenOff")
-            ShutdownLoadingScreen()
-            ShutdownLoadingScreenNui()
+                TriggerEvent("esx:loadingScreenOff")
+                    
+                ShutdownLoadingScreen()
+
+
+                    
+                ShutdownLoadingScreenNui()
         end)
     end
 
