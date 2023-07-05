@@ -30,6 +30,15 @@ jobs:
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo "$file was changed"
           done
+      - name: Get file extensions
+        id: getext
+        run: |
+          import os
+          files = '${{ steps.changed-files.outputs.all_changed_files }}'.split()
+          extensions = set(os.path.splitext(file)[1] for file in files)
+          with open(os.getenv('GITHUB_ENV'), 'a') as f:
+            f.write(f"CHANGED_EXTENSIONS={' '.join(extensions)}\n")
+        shell: python
       - name: Install Node.js and Prettier
         if: steps.changed-files.outputs.any_changed == 'true'
         run: |
@@ -45,5 +54,5 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Apply html,css,js formated code
-          file_pattern: '*.html *.css *.js'
+          file_pattern: ${{ env.CHANGED_EXTENSIONS }}
           status_options: '--untracked-files=no'
