@@ -48,7 +48,9 @@ AddEventHandler("esx:playerLoaded", function(xPlayer, isNew, skin)
             end
 
             TriggerEvent("esx:loadingScreenOff")
+
             ShutdownLoadingScreen()
+
             ShutdownLoadingScreenNui()
         end)
     end
