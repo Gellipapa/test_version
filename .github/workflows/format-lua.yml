@@ -54,4 +54,6 @@ jobs:
           fi
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Apply lua2 test code
+          commit_message: Apply lua formated code
+          file_pattern: '*.lua'
+          status_options: '--untracked-files=no'
