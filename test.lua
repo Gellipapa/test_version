@@ -13,6 +13,8 @@ function HUD:Start(xPlayer)
 
     self:SetHudColor()
 
+    self:SetHudColor()
+
     self:SlowThick()
 
     self:FastThick()
@@ -38,7 +40,9 @@ AddEventHandler("onResourceStart", function(resource)
     if GetCurrentResourceName() ~= resource then
         return
     end
+
     Wait(1000)
+
     HUD:Start()
 end)
 
