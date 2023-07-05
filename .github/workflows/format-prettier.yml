@@ -52,6 +52,9 @@ jobs:
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
               prettier --write "$file"
           done
+      - name: Update repo before push
+        run: |
+          git pull
       - name: Commit changed files and push current branch
         if: steps.changed-files.outputs.any_changed == 'true'
         uses: stefanzweifel/git-auto-commit-action@v4
