@@ -1,55 +1,47 @@
 function HUD:Toggle(state)
-                SendNUIMessage({ type = "SHOW", value = state })
+    SendNUIMessage({ type = "SHOW", value = state })
 end
 
 function HUD:SetHudColor()
-            SendNUIMessage({ type = "SET_CONFIG_DATA", value = Config })
+    SendNUIMessage({ type = "SET_CONFIG_DATA", value = Config })
 end
 
 function HUD:Start(xPlayer)
     if not xPlayer then
-        
         xPlayer = ESX.GetPlayerData()
-
-
-        
     end
-    
-                                self:SetHudColor()
 
-                self:SlowThick()
+    self:SetHudColor()
 
-        self:FastThick()
+    self:SlowThick()
+
+    self:FastThick()
 
     if not Config.Disable.Status then
-
-                                self:StatusThread()
-
+        self:StatusThread()
     end
 
     if not Config.Disable.Info then
-                            self:UpdateAccounts(xPlayer.accounts)
+        self:UpdateAccounts(xPlayer.accounts)
     end
 
     if Config.Disable.MinimapOnFoot then
-                        DisplayRadar(false)
+        DisplayRadar(false)
     end
 
-        self:Toggle(true)
+    self:Toggle(true)
 end
 
 -- Handlers
 -- On script start
 AddEventHandler("onResourceStart", function(resource)
-            if GetCurrentResourceName() ~= resource then
-            
-                return
-            
-            end
-        
-                Wait(1000)
-        
-            HUD:Start()
+    if GetCurrentResourceName() ~= resource then
+        return
+    end
+
+    Wait(1000)
+
+    HUD:Start()
 end)
 
 -- On player loaded
