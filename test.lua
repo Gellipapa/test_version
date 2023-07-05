@@ -17,9 +17,7 @@ function HUD:Start(xPlayer)
     self:FastThick()
 
     if not Config.Disable.Status then
-
-                    self:StatusThread()
-
+        self:StatusThread()
     end
 
     if not Config.Disable.Info then
