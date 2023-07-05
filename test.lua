@@ -8,14 +8,22 @@ end
 
 function HUD:Start(xPlayer)
     if not xPlayer then
+
+
+        
         xPlayer = ESX.GetPlayerData()
+
+
+        
     end
 
-    self:SetHudColor()
+                    self:SetHudColor()
+
+    
 
     self:SetHudColor()
 
-    self:SlowThick()
+                    self:SlowThick()
 
     self:FastThick()
 
