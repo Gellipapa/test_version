@@ -56,6 +56,8 @@ jobs:
         if: steps.changed-files.outputs.any_changed == 'true'
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
+          commit_user_name: ESX github actions bot
+          commit_user_email: esx-github-actions-bot@users.noreply.github.com
           commit_message: Apply ${{ env.CHANGED_EXTENSIONS }} formated code
           file_pattern: ${{ env.CHANGED_EXTENSIONS }}
           status_options: '--untracked-files=no'
