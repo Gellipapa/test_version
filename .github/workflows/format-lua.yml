@@ -23,7 +23,7 @@ jobs:
         uses: tj-actions/changed-files@v37
         with:
           files: |
-            **/*.{js,html,css,lua}
+            **/*.lua
             !**/*.yml
       - name: List all changed files
         run: |
