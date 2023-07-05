@@ -37,7 +37,6 @@ jobs:
           sudo apt-get install -y nodejs
           sudo npm install --global prettier
       - name: Format changed files with Prettier
-        if: env.includeWebFiles
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
               prettier --write "$file"
