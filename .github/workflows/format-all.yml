@@ -28,9 +28,12 @@ jobs:
           wget https://github.com/JohnnyMorganz/StyLua/releases/download/v0.18.0/stylua-linux-x86_64.zip
           unzip stylua-linux-x86_64.zip
           chmod +x stylua
-      - name: Format changed files with StyLua
+      - name: Format files with StyLua
         run: |
               ./stylua --glob '**/*.lua' -- .
+      - name: Format files with Prettier
+        run: |
+            npx prettier --write '**/*.{ts,js,css,html}'
       - name: Update repo before push
         run: |
           git pull
