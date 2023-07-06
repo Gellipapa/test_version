@@ -47,9 +47,7 @@ jobs:
       - name: Format changed files with Prettier
         if: steps.changed-files.outputs.any_changed == 'true'
         run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-              npx prettier --write "$file"
-          done
+            npx prettier --write ${{ steps.changed-files.outputs.all_changed_files }}
       - name: Update repo before push
         run: |
           git pull
