@@ -1,9 +1,22 @@
 function HUD:Toggle(state)
-    SendNUIMessage({ type = "SHOW", value = state })
+
+
+
+    
+                SendNUIMessage({ type = "SHOW", value = state })
+
+
+    
 end
 
 function HUD:SetHudColor()
-    SendNUIMessage({ type = "SET_CONFIG_DATA", value = Config })
+
+
+    
+                    SendNUIMessage({ type = "SET_CONFIG_DATA", value = Config })
+
+
+    
 end
 
 function HUD:Start(xPlayer)
