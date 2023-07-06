@@ -24,13 +24,11 @@ jobs:
         with:
           node-version: "16"
       - name: Install stylua
-        run: |
-          wget https://github.com/JohnnyMorganz/StyLua/releases/download/v0.18.0/stylua-linux-x86_64.zip
-          unzip stylua-linux-x86_64.zip
-          chmod +x stylua
-      - name: Format files with StyLua
-        run: |
-              ./stylua --glob '**/*.lua' -- .
+        uses: JohnnyMorganz/stylua-action@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: v0.18.0
+          args: --glob '**/*.lua' -- .
       - name: Format files with Prettier
         run: |
             npx prettier --write '**/*.{ts,js,css,html}'
