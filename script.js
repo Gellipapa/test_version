@@ -1,7 +1,9 @@
 const a = {};
 
-function test(a, b) {
-    if (a || b) {
+function test(        a, b        ) {
+    if (    a || b    ) {
+
+        
         return b;
     }
 
