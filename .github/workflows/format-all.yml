@@ -41,4 +41,3 @@ jobs:
           commit_user_name: ESX GITHUB ACTIONS BOT
           commit_user_email: esx-github-actions-bot@users.noreply.github.com
           commit_message: :art:Code formatted in *.lua files
-          status_options: '--untracked-files=no'
