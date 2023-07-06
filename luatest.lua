@@ -1,5 +1,3 @@
-function asd( a,b )
-  
-        print("asd")
-  
+function asd(a, b)
+    print("asd")
 end
