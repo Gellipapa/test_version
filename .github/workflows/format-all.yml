@@ -28,7 +28,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: v0.18.0
-          args: --glob '**/*.lua' -- .
+          args: --check .
       - name: Format files with Prettier
         run: |
             npx prettier --write '**/*.{ts,js,css,html}'
