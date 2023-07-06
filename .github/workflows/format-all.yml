@@ -30,7 +30,7 @@ jobs:
           chmod +x stylua
       - name: Format changed files with StyLua
         run: |
-              ./stylua --glob '**/*.luau' -- .
+              ./stylua --glob '**/*.lua' -- .
       - name: Update repo before push
         run: |
           git pull
