@@ -1,9 +1,7 @@
-function asd( a, b )
-
-    
+function asd(a, b)
     print("asd")
 end
 
-function asd( a, b )
-                        print("ads2")
+function asd(a, b)
+    print("ads2")
 end
