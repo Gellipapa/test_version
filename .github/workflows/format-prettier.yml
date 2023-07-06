@@ -43,14 +43,11 @@ jobs:
           with open(os.getenv('GITHUB_ENV'), 'a') as f:
             f.write(f"CHANGED_EXTENSIONS={' '.join(extensions)}\n")
         shell: python
-      - name: Install Prettier
-        if: steps.changed-files.outputs.any_changed == 'true'
-        run: npx prettier
       - name: Format changed files with Prettier
         if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-              prettier --write "$file"
+              npx prettier --write "$file"
           done
       - name: Update repo before push
         run: |
