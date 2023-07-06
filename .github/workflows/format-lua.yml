@@ -41,9 +41,7 @@ jobs:
       - name: Format changed files with StyLua
         if: steps.changed-files.outputs.any_changed == 'true'
         run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-              ./stylua "$file"
-          done
+            ./stylua ${{ steps.changed-files.outputs.all_changed_files }}
       - name: Update repo before push
         run: |
           git pull
