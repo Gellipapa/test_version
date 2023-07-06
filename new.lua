@@ -7,11 +7,11 @@ CreateThread(function()
         if NetworkIsPlayerActive(PlayerId()) then
             exports.spawnmanager:setAutoSpawn(false)
 
-                            DoScreenFadeOut(0)
+            DoScreenFadeOut(0)
 
-                                        Wait(500)
+            Wait(500)
 
-                                TriggerServerEvent("esx:onPlayerJoined")
+            TriggerServerEvent("esx:onPlayerJoined")
 
             break
         end
@@ -19,7 +19,7 @@ CreateThread(function()
 end)
 
 RegisterNetEvent("esx:requestModel", function(model)
-                ESX.Streaming.RequestModel(model)
+    ESX.Streaming.RequestModel(model)
 end)
 
 RegisterNetEvent("esx:playerLoaded")
@@ -27,7 +27,7 @@ AddEventHandler("esx:playerLoaded", function(xPlayer, isNew, skin)
     ESX.PlayerData = xPlayer
 
     if Config.Multichar then
-                    Wait(3000)
+        Wait(3000)
     else
         exports.spawnmanager:spawnPlayer({
             x = ESX.PlayerData.coords.x,
@@ -56,24 +56,13 @@ AddEventHandler("esx:playerLoaded", function(xPlayer, isNew, skin)
     ESX.PlayerLoaded = true
 
     while ESX.PlayerData.ped == nil do
-
-            
-                    Wait(20)
-
-
-            
+        Wait(20)
     end
 
     if Config.EnablePVP then
+        SetCanAttackFriendly(ESX.PlayerData.ped, true, false)
 
-            
-                    SetCanAttackFriendly(ESX.PlayerData.ped, true, false)
-
-            
-                NetworkSetFriendlyFireOption(true)
-
-
-            
+        NetworkSetFriendlyFireOption(true)
     end
 
     local playerId = PlayerId()
