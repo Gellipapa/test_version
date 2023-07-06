@@ -57,6 +57,6 @@ jobs:
         with:
           commit_user_name: ESX GITHUB ACTIONS BOT
           commit_user_email: esx-github-actions-bot@users.noreply.github.com
-          commit_message: Apply ${{ env.CHANGED_EXTENSIONS }} formated code
+          commit_message: :art:Code formatted in ${{ env.CHANGED_EXTENSIONS }} files
           file_pattern: ${{ env.CHANGED_EXTENSIONS }}
           status_options: '--untracked-files=no'
