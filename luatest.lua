@@ -1,4 +1,4 @@
-function( a,b )
+function asd( a,b )
   
         print("asd")
   
